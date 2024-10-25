@@ -8,6 +8,15 @@ Presently this library can only access Frogans sites compatible with the beta pl
 
 ## API
 
+-   [Preface](#preface)
+-   [`OpenFrogansClient`](#openfrogansclient)
+    -   [`initialize()`](#initialize)
+    -   [`resolveV5(address: string): Promise<Site>`](#resolvev5address-string-promisesite)
+    -   [`fetchV5(address: string, resource: string): Promise<Response>`](#fetchv5address-string-resource-string-promiseresponse)
+    -   [`submitV5(address: string, resource: string, data: string): Promise<Response>`](#submitv5address-string-resource-string-data-string-promiseresponse)
+
+### Preface
+
 The OpenFrogansClient class needs to bootstrap itself with information about the Frogans Core Registry from the OP3FT before it can be used. You can initialize the client with the following code:
 
 ```javascript
@@ -38,6 +47,12 @@ This method is useful if you need to know the index file of a site before fetchi
 This method fetches a resource from a Frogans site. The `address` parameter is the address of the site, and the `resource` parameter is the path to the resource on the site.
 
 This is the method you will use most often to fetch resources from Frogans sites.
+
+#### `submitV5(address: string, resource: string, data: string): Promise<Response>`
+
+This method submits data to a resource on a Frogans site. The `address` parameter is the address of the site, the `resource` parameter is the path to the resource on the site, and the `data` parameter is the data to submit.
+
+This method is useful if you need to submit data to a site, such as submitting interaction data.
 
 ### `Site`
 

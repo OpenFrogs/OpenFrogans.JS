@@ -194,6 +194,47 @@ class OpenFrogansClient {
 
 		return response;
 	}
+
+	/**
+	 * Submit data to a Frogans address
+	 * 
+	 * This will commonly be used to send interactions
+	 * @param {string} address The Frogans address to submit the data to
+	 * @param {string} resource The resource to submit the data to
+	 * @param {string} data Data to submit (usually an XML string)
+	 * @returns {Response} The response from the server
+	 */
+	async submitV5(address, resource, data) {
+		// Resolve the site
+		const site = await this.resolveV5(address);
+		const server =
+			site.servers[Math.floor(Math.random() * site.servers.length)];
+
+		const addressParts = address.split("*");
+		const network = addressParts[0];
+		const siteName = addressParts[1];
+
+		// Submit the data
+		const response = await fetch(
+			`${server.protocol}://${server.siteServer}:${server.port}${
+				server.directory
+			}/network-${ifapEncode(network)}.site-${ifapEncode(
+				siteName
+			)}/${resource}`,
+			{
+				method: "POST",
+				body: data,
+				headers: {
+					"Content-Type": "application/xml"
+				}
+			}
+		);
+		if (!response.ok) {
+			throw new Error("Data submission failed");
+		}
+
+		return response;
+	}
 }
 
 export default OpenFrogansClient;
